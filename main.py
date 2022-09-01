@@ -1,19 +1,23 @@
 import openpyxl as xl
 
 from styles import *
+from openpyxl.drawing.image import Image
 
 #  Подгрузка мест
-with open("points.csv", encoding="utf8") as f:
+with open("points_st.csv", encoding="utf8") as f:
     formatted_points = [[k.strip() for k in i.split(",")] for i in f.readlines()[1:]]
 
-teams = ["Альфа", "Бета", "Гамма", "Тета", "Эпсилон", "Дельта", "Йота", "Каппа", "Эта", "Кси", "Омикрон", "Омега"]
+# teams = ["Альфа", "Бета", "Гамма", "Дельта", "Эпсилон", "Дзета", "Эта",
+#          "Тета", "Йота", "Каппа", "Лямбда", "Мю"]
+teams = ["Ню", "Кси", "Омикрон", "Пи", "Ро", "Сигма", "Тау", "Ипсилон",
+         "Фи", "Хи", "Пси", "Омега"]
 
 wb = xl.Workbook()
 for team in teams:
     sheet = wb.create_sheet(team, 0)
 
     # Меняем ширину столбцов
-    sheet.column_dimensions["A"].width = 30
+    sheet.column_dimensions["A"].width = 10
     sheet.column_dimensions["B"].width = 30
     sheet.column_dimensions["C"].width = 20
     sheet.column_dimensions["D"].width = 20
@@ -52,5 +56,11 @@ for team in teams:
             col.border = BORDER
             col.alignment = CENTER_ALIGNMENT
 
-    formatted_points.append(formatted_points.pop(0))  # Переставляем первый элемент в конец
-wb.save("test.xlsx")
+    formatted_points.append(formatted_points.pop(0))
+    # Переставляем первый элемент в конец
+    logo = Image("2.jpeg")  # Картинка
+    logo.width = 576
+    logo.height = 360
+    sheet.add_image(logo, "A16")
+
+wb.save("second_list.xlsx")
